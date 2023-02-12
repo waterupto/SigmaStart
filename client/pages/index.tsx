@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
-import Menu from '@/components/Menu';
+import Menu from '@/components/menu/Menu';
 import Card from '@/components/cards/cards';
 
 export default function Home() {
