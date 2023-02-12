@@ -62,9 +62,6 @@ function Menu() {
     <>
       <AppBar position="static">
         <Toolbar>
-          {/* <Typography type="title" color="inherit">
-        MERN Mediastream
-      </Typography> */}
           <div className="flex flex-row justify-between w-full">
             <div>
               <Link href="/">
@@ -77,16 +74,29 @@ function Menu() {
               <span>
                 {/* {!auth.isAuthenticated() && ( */}
                 <span>
-                  <button
-                    className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
-                    type="button"
-                    onClick={() => setShowModal(true)}
-                  >
-                    <span className="pr-3">
-                      <AiOutlineLink />
-                    </span>
-                    Join
-                  </button>
+                  {!loggedIn ? (
+                    <button
+                      className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                      type="button"
+                      onClick={() => setShowModal(true)}
+                    >
+                      <span className="pr-3">
+                        <AiOutlineLink />
+                      </span>
+                      Join
+                    </button>
+                  ) : (
+                    <button
+                      className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                      type="button"
+                      onClick={() => setShowModal(true)}
+                    >
+                      <span className="pr-3">
+                        <AiOutlineLink />
+                      </span>
+                      {account.slice(0, 10) + '...'}
+                    </button>
+                  )}
                 </span>
               </span>
             </div>
@@ -108,7 +118,6 @@ function Menu() {
               <div className="pb-5">
                 <Social
                   icon={FcGoogle}
-                  link="sasa"
                   handle="Google"
                   func={() => {
                     login('google');
@@ -117,7 +126,6 @@ function Menu() {
                 />
                 <Social
                   icon={VscGithubInverted}
-                  link="sasa"
                   handle="Github"
                   func={() => {
                     login('github');
@@ -126,7 +134,6 @@ function Menu() {
                 />
                 <Social
                   icon={SiDiscord}
-                  link="sasa"
                   handle="Discord"
                   func={() => {
                     login('discord');

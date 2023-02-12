@@ -1,7 +1,6 @@
 import { FcGoogle } from 'react-icons/fc';
 
 interface socialProps {
-  link: string;
   icon: any;
   handle: string;
   func: Function;
