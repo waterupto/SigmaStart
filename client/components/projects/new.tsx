@@ -4,8 +4,11 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { Player } from '@livepeer/react';
 import { useCreateAsset } from '@livepeer/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { time } from 'console';
+import {useRef} from 'react';
+import Web3Modal from 'web3modal';
+import { providers, Contract } from "ethers";
 
 interface PROJECT_INPUTS {
   address: string;
@@ -14,10 +17,15 @@ interface PROJECT_INPUTS {
   description: string;
   videoLink: string;
   investmentGoals: number;
-  investmentProgress: number;
+  timeInDays: number;
 }
 
 const New = () => {
+  const web3ModalRef = useRef();
+  const abi = [
+    "function projectregister(string memory _name, string memory _description, uint _investmentGoals, uint _timeInDays) public",
+  ];
+
   const initialValues: PROJECT_INPUTS = {
     address: '',
     name: '',
@@ -25,7 +33,7 @@ const New = () => {
     description: '',
     videoLink: '',
     investmentGoals: 0,
-    investmentProgress: 0,
+    timeInDays: 0,
   };
 
   const submitSchema = Yup.object().shape({
@@ -48,8 +56,6 @@ const New = () => {
     }
   };
 
-  const playbackId = 'bafybeida3w2w7fch2fy6rfvfttqamlcyxgd3ddbf4u25n7fxzvyvcaegxy';
-
   const [video, setVideo] = useState<File | undefined>(undefined);
   const {
     mutate: createAsset,
@@ -66,6 +72,48 @@ const New = () => {
         }
       : null,
   );
+
+  const getProviderOrSigner = async (needSigner = false) => {
+    console.log(web3ModalRef);
+    const provider = await web3ModalRef.current.connect();
+    const web3Provider = new providers.Web3Provider(provider);
+
+    const network = await web3Provider.getNetwork();
+    if (network.chainId !== 5) {
+      window.alert("Change your network to goerli testnet");
+      throw new Error("Change to goerli testnet");
+    }
+
+    if (needSigner) {
+      const signer = web3Provider.getSigner();
+      return signer;
+    }
+    return web3Provider;
+  };
+
+  const sendInfoToContract =async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const contract = new Contract(
+        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+        abi,
+        signer,
+      );
+      const tx = await contract.projectregister(initialValues.name, initialValues.description, initialValues.investmentGoals, initialValues.timeInDays);
+      const receipt = await tx.wait();
+      console.log(receipt);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    web3ModalRef.current = new Web3Modal({
+      network: "goerli",
+      providerOptions: {},
+      disableInjectedProvider: false,
+    });
+  }, []);
 
   return (
     <>
@@ -143,7 +191,7 @@ const New = () => {
                 </div>
               </div>
 
-              <button type="submit" className="bg-[#3F51B5] p-3 rounded-md w-36 hover:opacity-60" onClick={() => {createAsset?.();}}>Submit</button>
+              <button type="submit" className="bg-[#3F51B5] p-3 rounded-md w-36 hover:opacity-60" onClick={() => {createAsset?.();getProviderOrSigner();}}>Submit</button>
             </div>
           </div>
         </Form>
