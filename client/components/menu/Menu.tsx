@@ -146,7 +146,7 @@ function Menu() {
         ) : null}
       </AppBar>
 
-      <div className="container">
+      {/* <div className="container">
         <h1>AUTHENTICATION</h1>
         <div>
           {loading ? (
@@ -199,7 +199,7 @@ function Menu() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
