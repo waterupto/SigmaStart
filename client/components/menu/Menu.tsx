@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import Button from '@material-ui/core/Button';
-import useArcanaAuth from '../helper/useArcanaAuth';
+import useArcanaAuth from '../../helper/useArcanaAuth';
 import { ColorRing } from 'react-loader-spinner';
+import { FcGoogle } from 'react-icons/fc';
+import { SiDiscord } from 'react-icons/si';
+import { VscGithubInverted } from 'react-icons/vsc';
+import { AiOutlineLink, AiOutlineClose } from 'react-icons/ai';
 
 // import { withRouter } from 'react-router';
 import Link from 'next/link';
+import Social from './socialConnect';
 
 const isActive = (history: any, path: any) => {
   if (history.location.pathname == path) return { color: '#f99085' };
@@ -54,6 +56,8 @@ function Menu() {
     setEmail(event.target.value);
   };
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <AppBar position="static">
@@ -61,48 +65,78 @@ function Menu() {
           {/* <Typography type="title" color="inherit">
         MERN Mediastream
       </Typography> */}
-          <div>
-            <Link href="/">
-              <IconButton aria-label="Home">
-                <HomeIcon />
-              </IconButton>
-            </Link>
-          </div>
-          <div style={{ position: 'absolute', right: '10px' }}>
-            <span style={{ float: 'right' }}>
-              {/* {!auth.isAuthenticated() && ( */}
+          <div className="flex flex-row justify-between w-full">
+            <div>
+              <Link href="/">
+                <IconButton aria-label="Home">
+                  <HomeIcon />
+                </IconButton>
+              </Link>
+            </div>
+            <div>
               <span>
-                <Link href="/signup">
-                  <Button>Sign up</Button>
-                </Link>
-                <Link href="/signin">
-                  <Button>Sign In</Button>
-                </Link>
+                {/* {!auth.isAuthenticated() && ( */}
+                <span>
+                  <button
+                    className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="pr-3">
+                      <AiOutlineLink />
+                    </span>
+                    Join
+                  </button>
+                </span>
               </span>
-              {/* )} */}
-              {/* {auth.isAuthenticated() && (
-            <span>
-              <Link to="/media/new">
-                <Button style={isActive(history, '/media/new')}>
-                  <AddBoxIcon style={{ marginRight: '8px' }} /> Add Media
-                </Button>
-              </Link>
-              <Link to={'/user/' + auth.isAuthenticated().user._id}>
-                <Button style={isActive(history, '/user/' + auth.isAuthenticated().user._id)}>My Profile</Button>
-              </Link>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  auth.signout(() => history.push('/'));
-                }}
-              >
-                Sign out
-              </Button>
-            </span>
-          )} */}
-            </span>
+            </div>
           </div>
         </Toolbar>
+        {showModal ? (
+          <div className="absolute flex justify-center items-center w-screen h-screen bg-black/50">
+            <div className="z-20 bg-gray-800 w-96 rounded-lg">
+              <div className="font-semibold flex justify-between items-center px-10 py-5">
+                <span>Connect With Socials</span>
+                <span onClick={() => setShowModal(false)} className="hover:cursor-pointer p-2 h-full">
+                  <AiOutlineClose className="h-full" />
+                </span>
+              </div>
+              <hr className="w-full" />
+              <div className="text-sm flex justify-between items-center px-10 py-5">
+                <span>Connect with one of our available Social platforms.</span>
+              </div>
+              <div className="pb-5">
+                <Social
+                  icon={FcGoogle}
+                  link="sasa"
+                  handle="Google"
+                  func={() => {
+                    login('google');
+                    setShowModal(false);
+                  }}
+                />
+                <Social
+                  icon={VscGithubInverted}
+                  link="sasa"
+                  handle="Github"
+                  func={() => {
+                    login('github');
+                    setShowModal(false);
+                  }}
+                />
+                <Social
+                  icon={SiDiscord}
+                  link="sasa"
+                  handle="Discord"
+                  func={() => {
+                    login('discord');
+                    setShowModal(false);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        ) : null}
       </AppBar>
 
       <div className="container">

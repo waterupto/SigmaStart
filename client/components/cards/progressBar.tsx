@@ -6,11 +6,7 @@ interface propsType {
 
 const ProgressBar = (props: propsType) => {
   const [progress, setProgress] = useState(props.progress);
-  console.log(props.progress);
-
   const progressClass = `bg-red-600 h-1 rounded-full dark:bg-red-500 w-[9%]`;
-
-  console.log(progressClass);
 
   return (
     <div className="px-5">
