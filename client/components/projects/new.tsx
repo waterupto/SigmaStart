@@ -1,14 +1,10 @@
-// import { Formik } from 'formik';
-import Menu from '../menu/Menu';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import { Player } from '@livepeer/react';
 import { useCreateAsset } from '@livepeer/react';
-import { useCallback, useState, useEffect } from 'react';
-import { time } from 'console';
-import {useRef} from 'react';
+import {  useState, useEffect,useRef  } from 'react';
 import Web3Modal from 'web3modal';
 import { providers, Contract } from "ethers";
+import { CONTRACT_ADDRESS, abi } from '../../constants';
 
 interface PROJECT_INPUTS {
   address: string;
@@ -22,9 +18,6 @@ interface PROJECT_INPUTS {
 
 const New = () => {
   const web3ModalRef = useRef();
-  const abi = [
-    "function projectregister(string memory _name, string memory _description, uint _investmentGoals, uint _timeInDays) public",
-  ];
 
   const initialValues: PROJECT_INPUTS = {
     address: '',
@@ -95,7 +88,7 @@ const New = () => {
     try {
       const signer = await getProviderOrSigner(true);
       const contract = new Contract(
-        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+        CONTRACT_ADDRESS,
         abi,
         signer,
       );
