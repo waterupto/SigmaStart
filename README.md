@@ -1,3 +1,18 @@
+<div align="center">
+  <img alt="ETHforAll" src="docs/544.png" height="300"/>
+</div>
+<div align="center">
+  <img alt="SigmaStart by SigmaNerds" src="docs/Logo.png" height="150" />
+</div>
+
+<br>
+<p align="center">
+<b>SigmaNerds presents SigmaStart
+<br>
+Kickstart your ideas and bring them to life with SigmaStart</b>
+</p>
+<blockquote align="center">built on <span style="color: #8b0000;">☕</span> at <a href="https://ethforall.devfolio.co/">ETHforAll</a>.</blockquote>
+
 # 💡 Goals
 
 - Use SigmaStart to kickstart your projects and ideas and bring them to life. 
