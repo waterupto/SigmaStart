@@ -1,11 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import { Player } from '@livepeer/react';
 import { CONTRACT_ADDRESS, abi } from '../../constants';
 import Web3Modal from 'web3modal';
 import { providers, Contract } from 'ethers';
 
 const Project = () => {
-  
+
+  const [projectInfo, setProjectInfo] = useState({});
+  const [projectID, setProjectID] = useState(0);
+
   const web3ModalRef = useRef();
 
   const getProviderOrSigner = async (needSigner = false) => {
@@ -32,10 +35,24 @@ const Project = () => {
       const contract = new Contract(CONTRACT_ADDRESS, abi, provider);
       const projectInfo = await contract.getProjectInfo();
       console.log(projectInfo);
+      return projectInfo;
     } catch (error) {
       console.log(error);
     }
   };
+
+  const investInProject = async (projectID) => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const contract = new Contract(CONTRACT_ADDRESS, abi, signer);
+      const tx = await contract.funding(projectID);
+      await tx.wait();
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   useEffect(() => {
     web3ModalRef.current = new Web3Modal({

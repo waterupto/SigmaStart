@@ -31,7 +31,9 @@ export default function Home() {
     try {
       const provider = await getProviderOrSigner();
       const contract = new Contract(CONTRACT_ADDRESS, abi, provider);
-      const projectInfo = await contract.allProjects();
+      const projID = await contract.receiveProjectid();
+      console.log(projID);
+      const projectInfo = await contract.projectlist(projID);
       console.log(projectInfo);
       return projectInfo;
     } catch (error) {
