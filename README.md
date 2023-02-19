@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="ETHforAll" src="docs/544.png" height="300"/>
+  <img alt="ETHforAll" src="docs/ETHforAll.png" height="300"/>
 </div>
 <div align="center">
   <img alt="SigmaStart by SigmaNerds" src="docs/Logo.png" height="250" />
